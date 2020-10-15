@@ -13,9 +13,9 @@ secs = 5
 switch = 0
 light_switch = 0
 on_note = ['c', 'g']
-off_note = ['g', 'c2:4']
+off_note = ['g', 'c8']
 
-note = ['c1:4', 'e:2', 'g', 'c2:4']
+note = ['c1:4', 'e:2', 'g', 'c8']
 #mapping function , ori = original 
 def map(value, oriMin, oriMax, newMin, newMax):
     return ((value-oriMin)/(oriMax-oriMin))*(newMax-newMin)+newMin
@@ -23,21 +23,18 @@ def map(value, oriMin, oriMax, newMin, newMax):
 
 while True:
     display.clear()
+    
     if button_a.is_pressed():
         music.play(on_note)
-        
         switch=1
     else:
         np.clear()
 
-    while switch == 1:
+    if switch == 1:
         x = accelerometer.get_x()
         y = accelerometer.get_y()
         
         blue = int(map(x, -2000, 2000, 0, 155))
-        
- 
-        
         light_switch = 1
     
         if button_b.is_pressed():
@@ -46,33 +43,37 @@ while True:
 
         # red section
         else:
-            
+            b_switch = 0
         
             for z in range(0, number):
-                np[z] = (255,255,255)
-                np.show()
-            light_switch = 1
-            color_array = [(255, 0, 0), (230, 76, 0), (255, 170, 0), (76, 239, 0), (0, 255, 255), (0, 0, 255), (128, 0, 128), (230, 0, 153)]
-            for n in range (0, 8):
-                blue = color_array[n]
-                change_color = int(155/number) - 1
                 
-                if button_b.is_pressed():
-                    music.play(off_note)
-                    display.scroll("OFF")
+                if b_switch != 0:
                     switch = 0
                     break
-                    
                 else:
-                    for i in range(0,number):
-                        np[i] = blue
-                        np.show()
-                        sleep(100)
+                    np[z] = (255,255,255)
+                    np.show()
+                    light_switch = 1
+                    color_array = [(255, 0, 0), (230, 76, 0), (255, 170, 0), (76, 239, 0), (0, 255, 255), (0, 0, 255), (128, 0, 128), (230, 0, 153)]
+                    for n in range (0, 8):
+                        blue = color_array[n]
+                        change_color = int(155/number) - 1
                         
-            display.show(Image.HAPPY)
-            music.play(off_note)
-            switch = 0
-            
+                        if button_b.is_pressed():
+                            music.play(off_note)
+                            switch = 0
+                            b_switch = 1
+                            done = 1
+                            break
+                            
+                        else:
+                            for i in range(0,number):
+                                np[i] = blue
+                                np.show()
+                                sleep(100)
+                            display.show(Image.HAPPY)
+                            music.play(off_note)
+                            switch = 0
 
 
 
