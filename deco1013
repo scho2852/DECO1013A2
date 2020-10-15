@@ -37,44 +37,36 @@ while True:
         blue = int(map(x, -2000, 2000, 0, switch))
         light_switch = 1
     
-        if button_b.is_pressed():
-            display.scroll("OFF")
-            switch = 0
-
-        # red section
-        else:
-            b_switch = 0
         
-            for z in range(0, number):
-                
-                if b_switch != 0:
-                    switch = 0
-                    break
-                else:
-                    np[z] = (255,255,255)
-                    np.show()
-                    color_array = [(255, 0, 0), (230, 76, 0), (255, 170, 0), (76, 239, 0), (0, 255, 255), (0, 0, 255), (128, 0, 128), (230, 0, 153)]
-                    for n in range (0, 8):
-                        blue = color_array[n]
-                        change_color = int(switch/number) - 1
-                        
+        b_switch = 0
+        
+        for z in range(0, number):
+            
+            if b_switch != 0:
+                switch = 0
+                break
+            else:
+                np[z] = (255,255,255)
+                np.show()
+                color_array = [(255, 0, 0), (230, 76, 0), (255, 170, 0), (76, 239, 0), (0, 255, 255), (0, 0, 255), (128, 0, 128), (230, 0, 153)]
+                for n in range (0, 8):
+                    color = color_array[n]  
+                    if b_switch != 0:
+                        break
+                    for i in range(0,number):
+                        np[i] = color
+                        np.show()
+                        sleep(100)
                         if button_b.is_pressed():
                             music.play(off_note)
                             switch = 0
                             b_switch = 1
-                            done = 1
                             break
                             
-                        else:
-                            for i in range(0,number):
-                                np[i] = blue
-                                np.show()
-                                sleep(100)
-                                
-                            
-    display.show(Image.HAPPY)
-    #music.play(off_note)
-    switch = 0
+                        
+        display.show(Image.HAPPY)
+        music.play(off_note)
+        switch = 0
 
 
 
