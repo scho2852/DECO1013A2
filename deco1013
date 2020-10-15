@@ -8,7 +8,7 @@ from random import randint
 import time
 
 
-number = 20
+number = 5
 np = neopixel.NeoPixel(pin1, number)
 
 secs = 5
@@ -16,17 +16,17 @@ switch = 0
 light_switch = 0
 
 #mapping function , ori = original 
-def map(value):
-    return (255*(value - (-2000))) / 4000
+def map(value, oriMin, oriMax, newMin, newMax):
+    return ((value-oriMin)/(oriMax-oriMin))*(newMax-newMin)+newMin
     
 while True:
     x = accelerometer.get_x()
     y = accelerometer.get_y()
     z = accelerometer.get_z()
     
-    red = int(map(x))
-    green = int(map(y))
-    blue = int(map(z))
+    red = int(map(x, -2000, 2000, 0, 255))
+    green = int(map(y, -2000, 2000, 0, 255))
+    blue = int(map(z,  -2000, 2000, 0, 255))
     
     #when button a is on, the device turns on
 
@@ -43,16 +43,22 @@ while True:
             switch = 0
 
 
-        else:
+        elif x > 0:
+            
             for i in range (0,number - 1):
                 np[i] = (red, green, blue)
                 np.show()
-                
             music.play('C')
             light_switch = 0
 
 
-      
+        elif x < 0:
+            for i in range (0,number - 1):
+                np[i] = (255,0,0)
+                np.show()
+            music.play('D')
+            light_switch = 0
+                    #sleep(100)
 
 
 
