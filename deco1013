@@ -1,0 +1,65 @@
+# Write your code here :-)
+from microbit import *
+import music
+#from gesture import *
+import neopixel
+from random import randint
+#import random
+import time
+
+
+number = 20
+np = neopixel.NeoPixel(pin1, number)
+
+secs = 5
+switch = 0
+light_switch = 0
+
+#mapping function , ori = original 
+def map(value):
+    return (255*(value - (-2000))) / 4000
+    
+while True:
+    x = accelerometer.get_x()
+    y = accelerometer.get_y()
+    z = accelerometer.get_z()
+    
+    red = int(map(x))
+    green = int(map(y))
+    blue = int(map(z))
+    
+    #when button a is on, the device turns on
+
+    if button_a.is_pressed():
+        switch=1
+    else:
+        np.clear()
+
+    while switch == 1:
+        light_switch = 1
+
+        if button_b.is_pressed():
+            display.scroll("OFF")
+            switch = 0
+
+
+        else:
+            for i in range (0,number - 1):
+                np[i] = (red, green, blue)
+                np.show()
+                
+            music.play('C')
+            light_switch = 0
+
+
+      
+
+
+
+
+        #switch = 0
+    #else:
+        #np.clear()
+
+
+
