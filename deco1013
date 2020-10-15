@@ -34,7 +34,7 @@ while True:
         x = accelerometer.get_x()
         y = accelerometer.get_y()
         
-        blue = int(map(x, -2000, 2000, 0, 155))
+        blue = int(map(x, -2000, 2000, 0, switch))
         light_switch = 1
     
         if button_b.is_pressed():
@@ -53,11 +53,10 @@ while True:
                 else:
                     np[z] = (255,255,255)
                     np.show()
-                    light_switch = 1
                     color_array = [(255, 0, 0), (230, 76, 0), (255, 170, 0), (76, 239, 0), (0, 255, 255), (0, 0, 255), (128, 0, 128), (230, 0, 153)]
                     for n in range (0, 8):
                         blue = color_array[n]
-                        change_color = int(155/number) - 1
+                        change_color = int(switch/number) - 1
                         
                         if button_b.is_pressed():
                             music.play(off_note)
@@ -71,9 +70,11 @@ while True:
                                 np[i] = blue
                                 np.show()
                                 sleep(100)
-                            display.show(Image.HAPPY)
-                            music.play(off_note)
-                            switch = 0
+                                
+                            
+    display.show(Image.HAPPY)
+    #music.play(off_note)
+    switch = 0
 
 
 
